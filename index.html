@@ -1,0 +1,14 @@
+<html>
+  <body>
+    <script>
+      class Abuser extends HTMLElement {
+        connectedCallback() {
+          this.innerHTML = "I don't like you, punk"
+        }
+      }
+      customElements.define("my-abuser", Abuser);
+    </script>
+
+    <my-abuser></my-abuser>
+  </body>
+</html>

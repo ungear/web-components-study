@@ -3,30 +3,40 @@
     <script>
       class Abuser extends HTMLElement {
         connectedCallback() {
+          this.shadow = this.attachShadow({mode: 'closed'});
           this.render();
         }
         static get observedAttributes() {
           return ['name'];
         }
         attributeChangedCallback(name, oldValue, newValue) {
+          // attributeChangedCallback is called before connectedCallback
+          if(!this.shadow) return 
           this.render();
         }
         render(){
           const name = this.getAttribute('name') || 'jackass';
-          this.innerHTML = `<h3>Hi ${name}! I don't like you, punk</h3>`
+          this.shadow.innerHTML = `
+            <style> h3 { color: firebrick} </style>
+            <h3>Hi ${name}! I don't like you, punk</h3>
+          `
         }
       }
       customElements.define('my-abuser', Abuser);
     </script>
-
+    <h3>Header to test styles</h3>
     <my-abuser></my-abuser>
     <my-abuser id='test-abuser' name='Mike'></my-abuser>
 
     <script>
-      setInterval(() => {
+      true || setInterval(() => {
         const currentName = window['test-abuser'].getAttribute('name');
         window['test-abuser'].setAttribute('name', currentName + "_" )
       }, 1000)
     </script>
+
+    <style>
+      h3 {color: lime}
+    </style>
   </body>
 </html>

@@ -3,14 +3,30 @@
     <script>
       class Abuser extends HTMLElement {
         connectedCallback() {
-          const name = this.getAttribute('name') || "jackass";
+          this.render();
+        }
+        static get observedAttributes() {
+          return ['name'];
+        }
+        attributeChangedCallback(name, oldValue, newValue) {
+          this.render();
+        }
+        render(){
+          const name = this.getAttribute('name') || 'jackass';
           this.innerHTML = `<h3>Hi ${name}! I don't like you, punk</h3>`
         }
       }
-      customElements.define("my-abuser", Abuser);
+      customElements.define('my-abuser', Abuser);
     </script>
 
     <my-abuser></my-abuser>
-    <my-abuser name='Mike'></my-abuser>
+    <my-abuser id='test-abuser' name='Mike'></my-abuser>
+
+    <script>
+      setInterval(() => {
+        const currentName = window['test-abuser'].getAttribute('name');
+        window['test-abuser'].setAttribute('name', currentName + "_" )
+      }, 1000)
+    </script>
   </body>
 </html>

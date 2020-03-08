@@ -3,12 +3,14 @@
     <script>
       class Abuser extends HTMLElement {
         connectedCallback() {
-          this.innerHTML = "I don't like you, punk"
+          const name = this.getAttribute('name') || "jackass";
+          this.innerHTML = `<h3>Hi ${name}! I don't like you, punk</h3>`
         }
       }
       customElements.define("my-abuser", Abuser);
     </script>
 
     <my-abuser></my-abuser>
+    <my-abuser name='Mike'></my-abuser>
   </body>
 </html>
